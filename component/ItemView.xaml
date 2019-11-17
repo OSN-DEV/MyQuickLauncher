@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="70" d:DesignWidth="50">
     <StackPanel Orientation="Vertical">
-        <TextBlock Width="50" Height="50" Background="AliceBlue" />
-        <TextBlock Width="50" Height="20" Text="1" TextAlignment="Center" />
+        <Image Width="50" Height="50" Name="cIcon" />
+        <TextBlock Width="50" Height="20"  TextAlignment="Center" x:Name="cKey" />
     </StackPanel>
 </UserControl>

@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyQuckLauncher"
         mc:Ignorable="d"
-        Title="LauncherMain" Height="350" Width="300" ResizeMode="NoResize" WindowStyle="ThreeDBorderWindow">
+        Title="LauncherMain" Height="350" Width="300" ResizeMode="NoResize" WindowStyle="ThreeDBorderWindow" AllowDrop="True">
 
-    <Grid ShowGridLines="True" Name="cContainer">
+    <Grid Name="cContainer">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />

@@ -24,12 +24,52 @@ namespace MyQuckLauncher {
         #region Declaration
         private AppRepository _settings;
         private ItemRepository _items;
+        private Key[] _keybinding = { Key.NumPad1, Key.NumPad2, Key.NumPad3, Key.NumPad4,
+                                      Key.Q,Key.W,Key.E,Key.R,
+                                      Key.A,Key.S,Key.D,Key.F,
+                                      Key.Z,Key.X,Key.C,Key.V};
+        private readonly System.Windows.Forms.NotifyIcon _notifyIcon = new System.Windows.Forms.NotifyIcon();
         #endregion
 
         #region Constructor
         public LauncherMain() {
             InitializeComponent();
             this.SetupScreen();
+            this.SetUpNotifyIcon();
+            this.KeyDown += LauncherMain_KeyDown;
+        }
+        #endregion
+
+
+        #region Event
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LauncherMain_KeyDown(object sender, KeyEventArgs e) {
+            var index = Array.IndexOf(this._keybinding, e.Key);
+            if (-1 < index) {
+                e.Handled = true;
+            } else if (e.Key == Key.Escape) {
+                e.Handled = true;
+                this.SetWindowsState(true);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NotifyMenuShow_Click(object sender, EventArgs e) {
+            this.SetWindowsState(false);
+            this.Activate();
+        }
+
+        private void NotifyMenuExit_Click(object sender, EventArgs e) {
+            this._notifyIcon.Dispose();
+            System.Windows.Application.Current.Shutdown();
         }
         #endregion
 
@@ -55,14 +95,56 @@ namespace MyQuckLauncher {
 
             // setup grid items
             this._items  = _items = ItemRepository.Init(MyLibUtil.GetAppPath() + @"\app.data");
+            var index = 0;
             for (int row = 0; row < this.cContainer.RowDefinitions.Count; row++) {
                 for (int col = 0; col < this.cContainer.ColumnDefinitions.Count; col++) {
-                    var item = new ItemView();
+                    var item = new ItemView(this, this._items.ItemList[index], this._keybinding[index]);
+                    index++;
                     item.VerticalAlignment = VerticalAlignment.Bottom;
                     Grid.SetRow(item, row);
                     Grid.SetColumn(item, col);
                     this.cContainer.Children.Add(item);
                 }
+            }
+        }
+
+        /// <summary>
+        /// set up notify icon
+        /// </summary>
+        private void SetUpNotifyIcon() {
+            this._notifyIcon.Text = "My Simple Launcher";
+            this._notifyIcon.Icon = new System.Drawing.Icon("app.ico");
+            var menu = new System.Windows.Forms.ContextMenuStrip();
+            var menuItemShow = new System.Windows.Forms.ToolStripMenuItem {
+                Text = "show"
+            };
+            menuItemShow.Click += this.NotifyMenuShow_Click;
+            menu.Items.Add(menuItemShow);
+
+            var menuItemExit = new System.Windows.Forms.ToolStripMenuItem {
+                Text = "exit"
+            };
+            menuItemExit.Click += this.NotifyMenuExit_Click;
+            menu.Items.Add(menuItemExit);
+
+            this._notifyIcon.ContextMenuStrip = menu;
+            this._notifyIcon.Visible = false;
+        }
+
+        /// <summary>
+        /// set window state
+        /// </summary>
+        /// <param name="minimize">true:minize, false:normalize</param>
+        private void SetWindowsState(bool minimize) {
+            this.WindowState = minimize ? WindowState.Minimized : WindowState.Normal;
+            this.ShowInTaskbar = !minimize;
+            this._notifyIcon.Visible = minimize;
+            if (minimize) {
+                this._settings.Pos.X = this.Left;
+                this._settings.Pos.Y = this.Top;
+                this._settings.Save();
+            } else { 
+                this.Activate();
             }
         }
         #endregion

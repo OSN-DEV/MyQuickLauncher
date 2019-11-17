@@ -22,6 +22,7 @@ namespace MyQuckLauncher.data {
             if (!System.IO.File.Exists(file)) {
                 for(int i=0; i< _instance.ItemList.Length; i++) {
                     _instance.ItemList[i] = new ItemModel();
+                    _instance.ItemList[i].Icon = MyLibUtil.GetAppPath() + @"res\no item.png";
                 }
                 _instance.Save();
             }
