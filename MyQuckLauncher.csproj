@@ -35,8 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>app.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -74,10 +73,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="util\Constant.cs" />
-    <Compile Include="util\KeySetPair.cs" />
-    <Compile Include="util\NativeMethod.cs" />
-    <Page Include="component\ItemView.xaml">
+    <Compile Include="Util\Constant.cs" />
+    <Compile Include="Util\KeySetPair.cs" />
+    <Compile Include="Util\NativeMethod.cs" />
+    <Compile Include="Util\AppUtil.cs" />
+    <Page Include="Component\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Component\ItemView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -93,12 +97,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="component\ItemView.xaml.cs">
+    <Compile Include="Component\ItemView.xaml.cs">
       <DependentUpon>ItemView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="data\AppRepository.cs" />
-    <Compile Include="data\ItemModel.cs" />
-    <Compile Include="data\ItemRepository.cs" />
+    <Compile Include="Data\AppRepository.cs" />
+    <Compile Include="Data\ItemModel.cs" />
+    <Compile Include="Data\ItemRepository.cs" />
     <Compile Include="EditItem.xaml.cs">
       <DependentUpon>EditItem.xaml</DependentUpon>
     </Compile>

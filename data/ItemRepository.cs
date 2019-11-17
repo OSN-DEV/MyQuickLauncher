@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using MyLib.Util;
 using MyLib.Data;
+using MyQuckLauncher.Util;
 
-namespace MyQuckLauncher.data {
+namespace MyQuckLauncher.Data {
     public class ItemRepository : AppDataBase<ItemRepository> {
         #region Declaration   
 
@@ -22,7 +23,7 @@ namespace MyQuckLauncher.data {
             if (!System.IO.File.Exists(file)) {
                 for(int i=0; i< _instance.ItemList.Length; i++) {
                     _instance.ItemList[i] = new ItemModel();
-                    _instance.ItemList[i].Icon = MyLibUtil.GetAppPath() + @"res\no item.png";
+                    _instance.ItemList[i].Icon = Constant.NoItemIcon;
                 }
                 _instance.Save();
             }

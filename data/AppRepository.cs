@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MyLib.Util;
 using MyLib.Data;
 
-namespace MyQuckLauncher.data {
+namespace MyQuckLauncher.Data {
      public class AppRepository : AppDataBase<AppRepository> {
         #region Declaration   
         public class Location {

@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MyQuckLauncher.data;
+using MyQuckLauncher.Data;
 using MyLib.File;
 using System.IO;
 using System.Drawing.Imaging;
 using MyQuckLauncher.Util;
 using Microsoft.Win32;
 
-namespace MyQuckLauncher.component {
+namespace MyQuckLauncher.Component {
     /// <summary>
     /// LauncherItemView.xaml の相互作用ロジック
     /// </summary>
@@ -56,7 +56,7 @@ namespace MyQuckLauncher.component {
             this._key = key;
 
             this.cKey.Text = key.ToString().Replace("NumPad","");
-            this.ShowIcon(model.Icon);
+            this.cIcon.Source = AppUtil.CreateImgeFromIconFile(model.Icon);
             this.cMenuRemove.IsEnabled = (0 < model.FileUrl?.Length);
             this.Drop += ItemView_Drop;
         }
@@ -83,7 +83,7 @@ namespace MyQuckLauncher.component {
             model.FileUrl = fileUtil.FilePath;
             model.DisplayName = fileUtil.Name;
             model.Icon = $"{Constant.IconCache}{this._model.PageNo}_{this._model.Index}.png.tmp";
-            this.CreateAppIcon(model.FileUrl, model.Icon);
+            AppUtil.CreateAppIcon(model.FileUrl, model.Icon);
             this.ItemAdded?.Invoke(this, new ItemEventArgs(model));
         }
 
@@ -93,7 +93,11 @@ namespace MyQuckLauncher.component {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void MenuItemEdit_Click(object sender, RoutedEventArgs e) {
-
+            var dialog = new EditItem(this._owner, this._model);
+            if (true != dialog.ShowDialog()) {
+                return;
+            }
+            this.ItemUpdated?.Invoke(this, new ItemEventArgs( dialog.Model));
         }
 
         /// <summary>
@@ -121,9 +125,9 @@ namespace MyQuckLauncher.component {
             model.Icon = $"{Constant.IconCache}{this._model.PageNo}_{this._model.Index}.png.tmp";
 
             if (fileUtil.IsDirectory) {
-                this.CreateDirectoryIcon(model.FileUrl, model.Icon);
+                AppUtil.CreateDirectoryIcon(model.FileUrl, model.Icon);
             } else {
-                this.CreateAppIcon(model.FileUrl, model.Icon);
+                AppUtil.CreateAppIcon(model.FileUrl, model.Icon);
             }
             this.ItemAdded?.Invoke(this, new ItemEventArgs(model));
         }
@@ -139,49 +143,7 @@ namespace MyQuckLauncher.component {
         #endregion
 
         #region Private Method
-        /// <summary>
-        /// show icon
-        /// </summary>
-        /// <param name="icon"></param>
-        private void ShowIcon(string icon) {
-            // https://fkmt5.hatenadiary.org/entry/20130729/1375090831
-            var bmpImage = new BitmapImage();
-            bmpImage.BeginInit();
-            bmpImage.CacheOption = BitmapCacheOption.OnLoad; 
-            bmpImage.CreateOptions = BitmapCreateOptions.None; 
-            bmpImage.UriSource = new Uri(icon);
-            bmpImage.EndInit();
-            bmpImage.Freeze();
-            this.cIcon.Source = bmpImage;
-        }
 
-        /// <summary>
-        /// create app icon
-        /// </summary>
-        /// <param name="inputFile">input file name</param>
-        /// <param name="iconFile">icon file name</param>
-        private void CreateAppIcon(string inputFile, string iconFile) {
-            using (var icon = System.Drawing.Icon.ExtractAssociatedIcon(inputFile)){
-                icon.ToBitmap().Save(iconFile, ImageFormat.Png);
-            }
-        }
-
-        /// <summary>
-        /// create directory icon
-        /// </summary>
-        /// <param name="inputFile">input file name</param>
-        /// <param name="iconFile">icon file name</param>
-        private void CreateDirectoryIcon(string inputFile, string iconFile) {
-            var shinfo = new NativeMethod.SHFILEINFO();
-            IntPtr hImg = NativeMethod.SHGetFileInfo(
-              inputFile, 0, out shinfo, (uint)System.Runtime.InteropServices.Marshal.SizeOf(typeof(NativeMethod.SHFILEINFO)),
-              (uint)(NativeMethod.SHGFI.SHGFI_ICON | NativeMethod.SHGFI.SHGFI_LARGEICON));
-            if (IntPtr.Zero != hImg) {
-                using (var icon = System.Drawing.Icon.FromHandle(shinfo.hIcon)) { 
-                    icon.ToBitmap().Save(iconFile, ImageFormat.Png);
-                }
-            }
-        }
         #endregion
 
     }

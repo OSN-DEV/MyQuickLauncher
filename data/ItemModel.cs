@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyQuckLauncher.data {
+namespace MyQuckLauncher.Data {
     /// <summary>
     /// data model
     /// </summary>

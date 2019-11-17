@@ -23,5 +23,10 @@ namespace MyQuckLauncher.Util {
         /// </summary>
         public static readonly string IconCache = MyLibUtil.GetAppPath() + @"icon\";
 
+        /// <summary>
+        /// アイコン画像なし
+        /// </summary>
+        public static readonly string NoItemIcon =  MyLibUtil.GetAppPath() + @"res\no item.png";
+
     }
 }

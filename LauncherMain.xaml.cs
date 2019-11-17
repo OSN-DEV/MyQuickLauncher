@@ -11,8 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using MyQuckLauncher.component;
-using MyQuckLauncher.data;
+using MyQuckLauncher.Component;
+using MyQuckLauncher.Data;
 using MyLib.Util;
 using MyQuckLauncher.Util;
 using MyLib.File;
@@ -36,7 +36,7 @@ namespace MyQuckLauncher {
         #region Constructor
         public LauncherMain() {
             InitializeComponent();
-            this.InitializeApp();
+            this.Initialize();
             this.SetUpNotifyIcon();
             this.KeyDown += LauncherMain_KeyDown;
         }
@@ -121,7 +121,7 @@ namespace MyQuckLauncher {
         /// <summary>
         /// 初期処理
         /// </summary>
-        private void InitializeApp() {
+        private void Initialize() {
             // delete cache icon
             var dirUtil = new DirectoryOperator(Constant.IconCache);
             dirUtil.Create();
@@ -143,7 +143,6 @@ namespace MyQuckLauncher {
             if (0 <= this._settings.Pos.Y && (this._settings.Pos.Y + this.Height) < SystemParameters.VirtualScreenHeight) {
                 this.Top = this._settings.Pos.Y;
             }
-
 
             // setup grid items
             this._items  = _items = ItemRepository.Init(Constant.AppDataFile);

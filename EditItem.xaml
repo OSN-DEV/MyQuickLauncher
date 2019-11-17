@@ -5,8 +5,51 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyQuckLauncher"
         mc:Ignorable="d"
-        Title="EditItem" Height="450" Width="800">
-    <Grid>
-        
+        Title="アイテム編集" Height="200" Width="200" WindowStyle="ThreeDBorderWindow"  WindowStartupLocation="CenterOwner"  ShowInTaskbar="False" ResizeMode="NoResize">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/MyQuckLauncher;component/component/Generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Image Width="50" Height="50" Grid.Row="0" Grid.Column="0"  Name="cIcon">
+            <Image.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Edit" Click="MenuItemEdit_Click" />
+                    <MenuItem Header="Remove" Name="cMenuRemove"  Click="MenuItemRemove_Click"/>
+                </ContextMenu>
+            </Image.ContextMenu>
+        </Image>
+        <TextBox x:Name="cDisplayName" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Width="Auto"/>
+
+
+        <TextBox x:Name="cFileUrl" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextChanged="cFileUrl_TextChanged" />
+
+
+        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="0"  Grid.Column="1" Content="OK" Style="{StaticResource LabelButton}" Name="cOK" IsDefault="True" Click="Ok_Click"/>
+            <Button Grid.Row="0" Grid.Column="2" Content="Cancel" Style="{StaticResource LabelButton}" Name="cCancel" IsCancel="True"/>
+        </Grid>
+
+
     </Grid>
 </Window>

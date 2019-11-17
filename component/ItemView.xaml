@@ -1,14 +1,14 @@
-﻿<UserControl x:Class="MyQuckLauncher.component.ItemView"
+﻿<UserControl x:Class="MyQuckLauncher.Component.ItemView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MyQuckLauncher.component"
+             xmlns:local="clr-namespace:MyQuckLauncher.Component"
              mc:Ignorable="d" 
              d:DesignHeight="70" d:DesignWidth="50"
              >
     <StackPanel Orientation="Vertical">
-        <Image Width="50" Height="50" Name="cIcon" Cursor="Hand" MouseDown="cIcon_MouseDown">
+        <Image Width="50" Height="50" Name="cIcon" Cursor="Hand" MouseLeftButtonDown="cIcon_MouseDown">
             <Image.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Add" Click="MenuItemAdd_Click" />
