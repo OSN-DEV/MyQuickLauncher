@@ -5,9 +5,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MyQuckLauncher.component"
              mc:Ignorable="d" 
-             d:DesignHeight="70" d:DesignWidth="50">
+             d:DesignHeight="70" d:DesignWidth="50"
+             >
     <StackPanel Orientation="Vertical">
-        <Image Width="50" Height="50" Name="cIcon" />
+        <Image Width="50" Height="50" Name="cIcon" Cursor="Hand" MouseDown="cIcon_MouseDown">
+            <Image.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Add" Click="MenuItemAdd_Click" />
+                    <MenuItem Header="Edit" Click="MenuItemEdit_Click" />
+                    <MenuItem Header="Remove" Name="cMenuRemove"  Click="MenuItemRemove_Click"/>
+            </ContextMenu>
+            </Image.ContextMenu>
+        </Image>
         <TextBlock Width="50" Height="20"  TextAlignment="Center" x:Name="cKey" />
+        
     </StackPanel>
 </UserControl>

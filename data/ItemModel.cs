@@ -9,29 +9,44 @@ namespace MyQuckLauncher.data {
     /// data model
     /// </summary>
     public class ItemModel {
+
+        #region Property
         /// <summary>
         /// ページ番号
         /// </summary>
-        public int PageNo { set; get; }
+        public int PageNo { set; get; } = -1;
 
         /// <summary>
         /// インデックス
         /// </summary>
-        public int Index { set; get; }
+        public int Index { set; get; } = -1;
 
         /// <summary>
         /// ファイルパス
         /// </summary>
-        public string FileUrl { set; get; }
+        public string FileUrl { set; get; } = "";
 
         /// <summary>
         /// 表示名
         /// </summary>
-        public string DisplayName { set; get; }
+        public string DisplayName { set; get; } = "";
 
         /// <summary>
         /// アイコン
         /// </summary>
-        public string Icon { set; get; }
+        public string Icon { set; get; } = "";
+        #endregion
+
+        #region Public Method
+        public ItemModel Clone() {
+            var model = new ItemModel();
+            model.PageNo = this.PageNo;
+            model.Index = this.Index;
+            model.FileUrl = this.FileUrl;
+            model.DisplayName = this.DisplayName;
+            model.Icon = this.Icon;
+            return model;
+        }
+        #endregion
     }
 }

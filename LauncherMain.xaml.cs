@@ -14,6 +14,8 @@ using System.Windows.Shapes;
 using MyQuckLauncher.component;
 using MyQuckLauncher.data;
 using MyLib.Util;
+using MyQuckLauncher.Util;
+using MyLib.File;
 
 namespace MyQuckLauncher {
     /// <summary>
@@ -34,7 +36,7 @@ namespace MyQuckLauncher {
         #region Constructor
         public LauncherMain() {
             InitializeComponent();
-            this.SetupScreen();
+            this.InitializeApp();
             this.SetUpNotifyIcon();
             this.KeyDown += LauncherMain_KeyDown;
         }
@@ -58,7 +60,7 @@ namespace MyQuckLauncher {
         }
 
         /// <summary>
-        /// 
+        /// [show] click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -67,24 +69,74 @@ namespace MyQuckLauncher {
             this.Activate();
         }
 
+        /// <summary>
+        /// [exit] click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NotifyMenuExit_Click(object sender, EventArgs e) {
             this._notifyIcon.Dispose();
             System.Windows.Application.Current.Shutdown();
         }
+
+        /// <summary>
+        /// item clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ItemClick(object sender, ItemView.ItemEventArgs e) {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// item removed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ItemRemoved(object sender, ItemView.ItemEventArgs e) {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// item updated
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ItemUpdated(object sender, ItemView.ItemEventArgs e) {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// item added
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ItemAdded(object sender, ItemView.ItemEventArgs e) {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Private Method
         /// <summary>
-        /// 画面生成
+        /// 初期処理
         /// </summary>
-        private void SetupScreen() {
+        private void InitializeApp() {
+            // delete cache icon
+            var dirUtil = new DirectoryOperator(Constant.IconCache);
+            dirUtil.Create();
+            dirUtil.ParseChildren(false, new List<string>() { "tmp" });
+            foreach(var child in dirUtil.Children) {
+                ((FileOperator)child).Delete(); 
+            }
+
             // show title
             var fullname = typeof(App).Assembly.Location;
             var info = System.Diagnostics.FileVersionInfo.GetVersionInfo(fullname);
             this.Title = $"MyQuickLauncher({info.FileVersion})";
 
             // set window position
-            this._settings = AppRepository.Init(MyLibUtil.GetAppPath() + @"\app.settings");
+            this._settings = AppRepository.Init(Constant.SettingFile);
             if (0 <= this._settings.Pos.X && (this._settings.Pos.X + this.Width) < SystemParameters.VirtualScreenWidth) {
                 this.Left = this._settings.Pos.X;
             }
@@ -94,15 +146,22 @@ namespace MyQuckLauncher {
 
 
             // setup grid items
-            this._items  = _items = ItemRepository.Init(MyLibUtil.GetAppPath() + @"\app.data");
+            this._items  = _items = ItemRepository.Init(Constant.AppDataFile);
             var index = 0;
             for (int row = 0; row < this.cContainer.RowDefinitions.Count; row++) {
                 for (int col = 0; col < this.cContainer.ColumnDefinitions.Count; col++) {
-                    var item = new ItemView(this, this._items.ItemList[index], this._keybinding[index]);
+                    var model = this._items.ItemList[index];
+                    model.PageNo = 1;
+                    model.Index = index;
+                    var item = new ItemView(this, model, this._keybinding[index]);
                     index++;
                     item.VerticalAlignment = VerticalAlignment.Bottom;
                     Grid.SetRow(item, row);
                     Grid.SetColumn(item, col);
+                    item.ItemClick += ItemClick;
+                    item.ItemAdded += ItemAdded;
+                    item.ItemUpdated += ItemUpdated;
+                    item.ItemRemoved += ItemRemoved;
                     this.cContainer.Children.Add(item);
                 }
             }
