@@ -11,55 +11,60 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MyQuckLauncher.component;
+using MyQuckLauncher.data;
+using MyLib.Util;
 
 namespace MyQuckLauncher {
     /// <summary>
-    /// LauncherMain.xaml の相互作用ロジック
+    /// ランチャーメイン
     /// </summary>
     public partial class LauncherMain : Window {
+
+        #region Declaration
+        private AppRepository _settings;
+        private ItemRepository _items;
+        #endregion
+
+        #region Constructor
         public LauncherMain() {
             InitializeComponent();
-
-            var grid = new Grid();
-            grid.Width = 300;
-            grid.ShowGridLines = true;
-
-            var col1 = new ColumnDefinition();
-            col1.Width = new GridLength( 75);
-            var col2 = new ColumnDefinition();
-            col2.Width = new GridLength(75);
-            grid.ColumnDefinitions.Add(col1);
-            grid.ColumnDefinitions.Add(col2);
-
-            RowDefinition gridRow1 = new RowDefinition();
-            gridRow1.Height = new GridLength(45);
-            RowDefinition gridRow2 = new RowDefinition();
-            gridRow2.Height = new GridLength(45);
-            RowDefinition gridRow3 = new RowDefinition();
-            gridRow3.Height = new GridLength(45);
-
-            grid.RowDefinitions.Add(gridRow1);
-            grid.RowDefinitions.Add(gridRow2);
-            grid.RowDefinitions.Add(gridRow3);
-
-            TextBlock txtBlock1 = new TextBlock();
-
-            txtBlock1.Text = "Author Name";
-
-            txtBlock1.FontSize = 14;
-
-            txtBlock1.FontWeight = FontWeights.Bold;
-
-            txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
-
-            txtBlock1.VerticalAlignment = VerticalAlignment.Top;
-
-
-            Grid.SetRow(txtBlock1, 1);
-            Grid.SetColumn(txtBlock1, 2);
-
-            grid.Children.Add(txtBlock1);
-            this.Content = grid;
+            this.SetupScreen();
         }
+        #endregion
+
+        #region Private Method
+        /// <summary>
+        /// 画面生成
+        /// </summary>
+        private void SetupScreen() {
+            // show title
+            var fullname = typeof(App).Assembly.Location;
+            var info = System.Diagnostics.FileVersionInfo.GetVersionInfo(fullname);
+            this.Title = $"MyQuickLauncher({info.FileVersion})";
+
+            // set window position
+            this._settings = AppRepository.Init(MyLibUtil.GetAppPath() + @"\app.settings");
+            if (0 <= this._settings.Pos.X && (this._settings.Pos.X + this.Width) < SystemParameters.VirtualScreenWidth) {
+                this.Left = this._settings.Pos.X;
+            }
+            if (0 <= this._settings.Pos.Y && (this._settings.Pos.Y + this.Height) < SystemParameters.VirtualScreenHeight) {
+                this.Top = this._settings.Pos.Y;
+            }
+
+
+            // setup grid items
+            this._items  = _items = ItemRepository.Init(MyLibUtil.GetAppPath() + @"\app.data");
+            for (int row = 0; row < this.cContainer.RowDefinitions.Count; row++) {
+                for (int col = 0; col < this.cContainer.ColumnDefinitions.Count; col++) {
+                    var item = new ItemView();
+                    item.VerticalAlignment = VerticalAlignment.Bottom;
+                    Grid.SetRow(item, row);
+                    Grid.SetColumn(item, col);
+                    this.cContainer.Children.Add(item);
+                }
+            }
+        }
+        #endregion
     }
 }

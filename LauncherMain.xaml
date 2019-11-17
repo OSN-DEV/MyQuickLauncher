@@ -7,4 +7,18 @@
         mc:Ignorable="d"
         Title="LauncherMain" Height="350" Width="300" ResizeMode="NoResize" WindowStyle="ThreeDBorderWindow">
 
+    <Grid ShowGridLines="True" Name="cContainer">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+    </Grid>
 </Window>
