@@ -76,6 +76,7 @@
     <Compile Include="Component\CustomImage.cs" />
     <Compile Include="Component\CustomTextBox.cs" />
     <Compile Include="Util\Constant.cs" />
+    <Compile Include="Util\HotKeyHelper.cs" />
     <Compile Include="Util\KeySetPair.cs" />
     <Compile Include="Util\NativeMethod.cs" />
     <Compile Include="Util\AppUtil.cs" />

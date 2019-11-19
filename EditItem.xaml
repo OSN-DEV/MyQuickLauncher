@@ -38,7 +38,7 @@
         <u:CustomTextBox x:Name="cDisplayName" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Width="Auto" Height="18" Margin="3,16"/>
 
 
-        <u:CustomTextBox x:Name="cFileUrl" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ImeMode="Off" TextChanged="cFileUrl_TextChanged" TextWrapping="Wrap" Margin="3,10,3,4" />
+        <u:CustomTextBox x:Name="cFileUrl" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ImeMode="Off" TextChanged="FileUrl_TextChanged" TextWrapping="Wrap" Margin="3,10,3,4" />
 
         <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>

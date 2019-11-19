@@ -67,7 +67,7 @@ namespace MyQuckLauncher {
 
 
         }
-b
+
         /// <summary>
         /// Context Menu [Remove] click
         /// </summary>
@@ -87,7 +87,7 @@ b
             this.cOK.IsEnabled = (0 < this.cFileUrl.Text.Length);
             if (0 < this.cFileUrl.Text.Length && this.cFileUrl.Text != this.cIcon.Tag.ToString()) {
                 var fileUtil = FileUtil.Create(this.cFileUrl.Text);
-                if (fileUtil.Exists()) {
+                if (null != fileUtil && fileUtil.Exists()) {
                     this.SetIcon();
                     this.cIcon.SetImageFile(this.Model.Icon);
                     this.cIcon.Tag = this.cFileUrl.Text;
@@ -105,6 +105,7 @@ b
             this.cIcon.Tag = this.Model.FileUrl;
             this.cDisplayName.Text = this.Model.DisplayName;
             this.cFileUrl.Text = this.Model.FileUrl;
+            this.cOK.IsEnabled = (0 < this.cFileUrl.Text.Length);
         }
 
         /// <summary>

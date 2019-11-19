@@ -24,6 +24,7 @@ namespace MyQuckLauncher {
     public partial class LauncherMain : Window {
 
         #region Declaration
+        private readonly HotKeyHelper _hotkey;
         private AppRepository _settings;
         private ItemRepository _items;
         private Key[] _keybinding = { Key.NumPad1, Key.NumPad2, Key.NumPad3, Key.NumPad4,
@@ -36,6 +37,8 @@ namespace MyQuckLauncher {
         #region Constructor
         public LauncherMain() {
             InitializeComponent();
+
+            this._hotkey = new HotKeyHelper(this);
             this.Initialize();
             this.SetUpNotifyIcon();
             this.KeyDown += LauncherMain_KeyDown;
@@ -58,6 +61,26 @@ namespace MyQuckLauncher {
                 this.SetWindowsState(true);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LauncherMain_Loaded(object sender, RoutedEventArgs e) {
+            this.SetWindowsState(true);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LauncherMain_Closed(object sender, EventArgs e) {
+            this._hotkey.Dispose();
+        }
+
 
         /// <summary>
         /// [show] click
@@ -164,6 +187,19 @@ namespace MyQuckLauncher {
                     this.cContainer.Children.Add(item);
                 }
             }
+
+            // register hot key
+            this._hotkey.Register(ModifierKeys.None, Key.F16, (_, __) => {
+                                      if (!this.ShowInTaskbar) {
+                                          NotifyMenuShow_Click(null, null);
+                                      } else {
+                                          if (this.WindowState == WindowState.Minimized) {
+                                              this.WindowState = WindowState.Normal;
+                                          }
+                                          this.Activate();
+                                      }
+                                  }
+                                  );
         }
 
         /// <summary>
