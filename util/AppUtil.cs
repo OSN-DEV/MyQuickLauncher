@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using System.Windows;
 
 namespace MyQuckLauncher.Util {
     class AppUtil {
@@ -54,6 +55,15 @@ namespace MyQuckLauncher.Util {
                     icon.ToBitmap().Save(iconFile, ImageFormat.Png);
                 }
             }
+        }
+
+        /// <summary>
+        /// show error message
+        /// </summary>
+        /// <param name="message">message</param>
+
+        public static void ShowErrorMsg(string message) {
+            MessageBox.Show(message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

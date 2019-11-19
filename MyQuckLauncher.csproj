@@ -80,6 +80,7 @@
     <Compile Include="Util\KeySetPair.cs" />
     <Compile Include="Util\NativeMethod.cs" />
     <Compile Include="Util\AppUtil.cs" />
+    <Compile Include="Util\Wording.cs" />
     <Page Include="Component\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

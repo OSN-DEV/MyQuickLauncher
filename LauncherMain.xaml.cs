@@ -108,7 +108,12 @@ namespace MyQuckLauncher {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ItemClick(object sender, ItemView.ItemEventArgs e) {
-            throw new NotImplementedException();
+            if (0 == e.Model.FileUrl.Length) {
+                return;
+            }
+            if (!MyLibUtil.RunApplication(e.Model.FileUrl, false)) {
+                AppUtil.ShowErrorMsg(string.Format(ErrorMsg.FailToLaunch, e.Model.FileUrl));
+            }
         }
 
         /// <summary>
