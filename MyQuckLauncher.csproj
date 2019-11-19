@@ -73,6 +73,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Component\CustomImage.cs" />
+    <Compile Include="Component\CustomTextBox.cs" />
     <Compile Include="Util\Constant.cs" />
     <Compile Include="Util\KeySetPair.cs" />
     <Compile Include="Util\NativeMethod.cs" />

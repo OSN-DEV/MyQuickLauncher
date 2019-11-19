@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyQuckLauncher"
+        xmlns:u="clr-namespace:MyQuckLauncher.Component"
         mc:Ignorable="d"
-        Title="アイテム編集" Height="200" Width="200" WindowStyle="ThreeDBorderWindow"  WindowStartupLocation="CenterOwner"  ShowInTaskbar="False" ResizeMode="NoResize">
+        Title="アイテム編集" Height="250" Width="250" WindowStyle="ThreeDBorderWindow"  WindowStartupLocation="CenterOwner"  ShowInTaskbar="False" ResizeMode="NoResize">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -13,10 +14,10 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid Margin="5">
+    <Grid Margin="10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="67*" />
+            <ColumnDefinition Width="157*" />
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -26,19 +27,18 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Image Width="50" Height="50" Grid.Row="0" Grid.Column="0"  Name="cIcon">
+        <u:CustomImage Width="50" Grid.Row="0" Grid.Column="0"  x:Name="cIcon" HorizontalAlignment="Left">
             <Image.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Edit" Click="MenuItemEdit_Click" />
                     <MenuItem Header="Remove" Name="cMenuRemove"  Click="MenuItemRemove_Click"/>
                 </ContextMenu>
             </Image.ContextMenu>
-        </Image>
-        <TextBox x:Name="cDisplayName" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Width="Auto"/>
+        </u:CustomImage>
+        <u:CustomTextBox x:Name="cDisplayName" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Width="Auto" Height="18" Margin="3,16"/>
 
 
-        <TextBox x:Name="cFileUrl" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextChanged="cFileUrl_TextChanged" />
-
+        <u:CustomTextBox x:Name="cFileUrl" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ImeMode="Off" TextChanged="cFileUrl_TextChanged" TextWrapping="Wrap" Margin="3,10,3,4" />
 
         <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>

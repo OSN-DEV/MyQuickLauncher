@@ -39,7 +39,8 @@
         <Setter Property="BorderBrush" Value="#EEEEEE" />
         <Setter Property="Margin" Value="3,4" />
     </Style>
-
+    <Style TargetType="component:CustomTextBox" BasedOn="{StaticResource BaseTextBoxStyle}" />
+    
     <Style TargetType="TextBox" BasedOn="{StaticResource BaseTextBoxStyle}" />
     
     <Style TargetType="ListViewItem">

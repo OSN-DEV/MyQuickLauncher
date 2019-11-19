@@ -32,6 +32,9 @@ namespace MyQuckLauncher.Util {
         /// <param name="iconFile">icon file name</param>
         public static void CreateAppIcon(string inputFile, string iconFile) {
             using (var icon = System.Drawing.Icon.ExtractAssociatedIcon(inputFile)) {
+                if (System.IO.File.Exists(iconFile)) {
+                    System.IO.File.Delete(iconFile);
+                }
                 icon.ToBitmap().Save(iconFile, ImageFormat.Png);
             }
         }
