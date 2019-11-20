@@ -65,7 +65,7 @@ namespace MyQuckLauncher.Component {
         /// set image file
         /// </summary>
         /// <param name="filePath">file path</param>
-        public void SetImageFile(string filePath) {
+        public void SetImageFromFile(string filePath) {
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             using (var memStream = new MemoryStream()) {
                 stream.CopyTo(memStream);

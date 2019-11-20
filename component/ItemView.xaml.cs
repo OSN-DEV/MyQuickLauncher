@@ -1,23 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Win32;
+using MyLib.File;
+using MyQuckLauncher.Data;
+using MyQuckLauncher.Util;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MyQuckLauncher.Data;
-using MyLib.File;
-using System.IO;
-using System.Drawing.Imaging;
-using MyQuckLauncher.Util;
-using Microsoft.Win32;
 
 namespace MyQuckLauncher.Component {
     /// <summary>
@@ -55,12 +43,14 @@ namespace MyQuckLauncher.Component {
             this._model = model;
             this._key = key;
 
-            this.cKey.Text = key.ToString().Replace("NumPad","");
-            this.cIcon.Source = AppUtil.CreateImgeFromIconFile(model.Icon);
+            this.cKey.Text = key.ToString();
+            if (2 == this.cKey.Text.Length) {
+                this.cKey.Text = this.cKey.Text.Substring(1, 1);
+            }
+            this.cIcon.SetImageFromFile(model.Icon);
             this.cMenuRemove.IsEnabled = (0 < model.FileUrl?.Length);
             this.Drop += ItemView_Drop;
         }
-
         #endregion
 
         #region Event
@@ -137,12 +127,21 @@ namespace MyQuckLauncher.Component {
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cIcon_MouseDown(object sender, MouseButtonEventArgs e) {
+        private void Icon_MouseDown(object sender, MouseButtonEventArgs e) {
             this.ItemClick?.Invoke(this, new ItemEventArgs(this._model));
         }
         #endregion
 
-        #region Private Method
+        #region Public Method
+        /// <summary>
+        /// update model
+        /// </summary>
+        /// <param name="model"></param>
+        public void UpdateModel(ItemModel model) {
+            this._model = model;
+            this.cIcon.SetImageFromFile(model.Icon);
+            this.cMenuRemove.IsEnabled = (0 < model.FileUrl?.Length);
+        }
 
         #endregion
 

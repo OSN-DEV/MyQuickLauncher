@@ -27,10 +27,11 @@ namespace MyQuckLauncher {
         private readonly HotKeyHelper _hotkey;
         private AppRepository _settings;
         private ItemRepository _items;
-        private Key[] _keybinding = { Key.NumPad1, Key.NumPad2, Key.NumPad3, Key.NumPad4,
+        private Key[] _keybinding = { Key.D1, Key.D2, Key.D3, Key.D4,
                                       Key.Q,Key.W,Key.E,Key.R,
                                       Key.A,Key.S,Key.D,Key.F,
                                       Key.Z,Key.X,Key.C,Key.V};
+        private ItemView[] _itemViews;
         private readonly System.Windows.Forms.NotifyIcon _notifyIcon = new System.Windows.Forms.NotifyIcon();
         #endregion
 
@@ -56,6 +57,10 @@ namespace MyQuckLauncher {
             var index = Array.IndexOf(this._keybinding, e.Key);
             if (-1 < index) {
                 e.Handled = true;
+                if (this.LaunchApp(this._items.ItemList[index])) {
+                    this.SetWindowsState(true);
+                }
+
             } else if (e.Key == Key.Escape) {
                 e.Handled = true;
                 this.SetWindowsState(true);
@@ -112,6 +117,8 @@ namespace MyQuckLauncher {
                 return;
             }
             if (!MyLibUtil.RunApplication(e.Model.FileUrl, false)) {
+                this.SetWindowsState(true);
+            } else {
                 AppUtil.ShowErrorMsg(string.Format(ErrorMsg.FailToLaunch, e.Model.FileUrl));
             }
         }
@@ -122,7 +129,12 @@ namespace MyQuckLauncher {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ItemRemoved(object sender, ItemView.ItemEventArgs e) {
-            throw new NotImplementedException();
+            new FileOperator(e.Model.Icon).Delete();
+            var model = this._items.ItemList[e.Model.Index];
+            model.Clear();
+            model.Icon = Constant.NoItemIcon;
+            this._items.Save();
+            this._itemViews[e.Model.Index].UpdateModel(model);
         }
 
         /// <summary>
@@ -131,7 +143,7 @@ namespace MyQuckLauncher {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ItemUpdated(object sender, ItemView.ItemEventArgs e) {
-            throw new NotImplementedException();
+            this.ItemAdded(sender, e);
         }
 
         /// <summary>
@@ -140,7 +152,10 @@ namespace MyQuckLauncher {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ItemAdded(object sender, ItemView.ItemEventArgs e) {
-            throw new NotImplementedException();
+            this.RenameTmpIcon(e.Model);
+            this._items.SetItem(e.Model);
+            this._items.Save();
+            this._itemViews[e.Model.Index].UpdateModel(e.Model);
         }
 
         #endregion
@@ -175,12 +190,14 @@ namespace MyQuckLauncher {
             // setup grid items
             this._items  = _items = ItemRepository.Init(Constant.AppDataFile);
             var index = 0;
+            this._itemViews = new ItemView[this._items.ItemList.Length];
             for (int row = 0; row < this.cContainer.RowDefinitions.Count; row++) {
                 for (int col = 0; col < this.cContainer.ColumnDefinitions.Count; col++) {
                     var model = this._items.ItemList[index];
                     model.PageNo = 1;
                     model.Index = index;
                     var item = new ItemView(this, model, this._keybinding[index]);
+                    this._itemViews[index] = item;
                     index++;
                     item.VerticalAlignment = VerticalAlignment.Bottom;
                     Grid.SetRow(item, row);
@@ -190,6 +207,7 @@ namespace MyQuckLauncher {
                     item.ItemUpdated += ItemUpdated;
                     item.ItemRemoved += ItemRemoved;
                     this.cContainer.Children.Add(item);
+                   
                 }
             }
 
@@ -245,6 +263,33 @@ namespace MyQuckLauncher {
             } else { 
                 this.Activate();
             }
+        }
+
+        /// <summary>
+        /// launch app
+        /// </summary>
+        /// <param name="model"></param>
+        private bool LaunchApp(ItemModel model) {
+            var result = false;
+            if (0 <= model.FileUrl.Length) {
+                if (!MyLibUtil.RunApplication(model.FileUrl, false)) {
+                    AppUtil.ShowErrorMsg(string.Format(ErrorMsg.FailToLaunch, model.FileUrl));
+                } else {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// rename tmp icon
+        /// </summary>
+        /// <param name="model"></param>
+        private void RenameTmpIcon(ItemModel model) {
+            var file = new FileOperator(model.Icon.Replace(".png.tmp", ".png"));
+            file.Delete();
+            System.IO.File.Move(model.Icon, file.FilePath);
+            model.Icon = file.FilePath;
         }
         #endregion
     }

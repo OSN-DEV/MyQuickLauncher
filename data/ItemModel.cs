@@ -38,6 +38,10 @@ namespace MyQuckLauncher.Data {
         #endregion
 
         #region Public Method
+        /// <summary>
+        /// copy instance
+        /// </summary>
+        /// <returns></returns>
         public ItemModel Clone() {
             var model = new ItemModel();
             model.PageNo = this.PageNo;
@@ -46,6 +50,15 @@ namespace MyQuckLauncher.Data {
             model.DisplayName = this.DisplayName;
             model.Icon = this.Icon;
             return model;
+        }
+
+        /// <summary>
+        /// clear model data
+        /// </summary>
+        public void Clear() {
+            this.DisplayName = "";
+            this.FileUrl = "";
+            this.Icon = "";
         }
         #endregion
     }

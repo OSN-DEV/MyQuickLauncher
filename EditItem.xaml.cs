@@ -63,7 +63,7 @@ namespace MyQuckLauncher {
 
             this.Model.Icon = $"{Constant.IconCache}{this.Model.PageNo}_{this.Model.Index}.png.tmp";
             System.IO.File.Copy(dialog.FileName, this.Model.Icon, true);
-            this.cIcon.SetImageFile(this.Model.Icon);
+            this.cIcon.SetImageFromFile(this.Model.Icon);
 
 
         }
@@ -89,7 +89,7 @@ namespace MyQuckLauncher {
                 var fileUtil = FileUtil.Create(this.cFileUrl.Text);
                 if (null != fileUtil && fileUtil.Exists()) {
                     this.SetIcon();
-                    this.cIcon.SetImageFile(this.Model.Icon);
+                    this.cIcon.SetImageFromFile(this.Model.Icon);
                     this.cIcon.Tag = this.cFileUrl.Text;
                 }
             }
@@ -101,7 +101,7 @@ namespace MyQuckLauncher {
         /// initialize screen
         /// </summary>
         private void Initialize() {
-            this.cIcon.SetImageFile(this.Model.Icon);
+            this.cIcon.SetImageFromFile(this.Model.Icon);
             this.cIcon.Tag = this.Model.FileUrl;
             this.cDisplayName.Text = this.Model.DisplayName;
             this.cFileUrl.Text = this.Model.FileUrl;

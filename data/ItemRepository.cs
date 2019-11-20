@@ -44,6 +44,14 @@ namespace MyQuckLauncher.Data {
         public void Save() {
             GetInstanceBase().SaveToXml(_settingFile);
         }
+
+        /// <summary>
+        /// set model
+        /// </summary>
+        /// <param name="model"></param>
+        public void SetItem(ItemModel model) {
+            this.ItemList[model.Index] = model;
+        }
         #endregion
     }
 }
