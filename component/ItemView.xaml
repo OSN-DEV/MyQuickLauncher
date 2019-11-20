@@ -6,10 +6,10 @@
              xmlns:local="clr-namespace:MyQuckLauncher.Component"
              xmlns:u="clr-namespace:MyQuckLauncher.Component"
              mc:Ignorable="d" 
-             d:DesignHeight="70" d:DesignWidth="50"
+             d:DesignHeight="57" d:DesignWidth="32"
              >
     <StackPanel Orientation="Vertical">
-        <u:CustomImage Width="32" Height="32" x:Name="cIcon" Cursor="Hand" MouseLeftButtonDown="Icon_MouseDown" VerticalAlignment="Center">
+        <u:CustomImage Width="32" Height="32" x:Name="cIcon" Cursor="Hand" MouseLeftButtonDown="Icon_MouseDown">
             <u:CustomImage.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Add" Click="MenuItemAdd_Click" />
@@ -18,7 +18,7 @@
             </ContextMenu>
             </u:CustomImage.ContextMenu>
         </u:CustomImage>
-        <TextBlock Width="50" Height="20" Margin="0 5 0 0" TextAlignment="Center" x:Name="cKey" />
+        <TextBlock Width="32" Height="20" Margin="0 5 0 0" TextAlignment="Center" x:Name="cKey" />
         
     </StackPanel>
 </UserControl>
