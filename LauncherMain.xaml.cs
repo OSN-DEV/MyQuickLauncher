@@ -115,11 +115,7 @@ namespace MyQuckLauncher {
             if (0 == e.Model.FileUrl.Length) {
                 return;
             }
-            if (!MyLibUtil.RunApplication(e.Model.FileUrl, false)) {
-                this.SetWindowsState(true);
-            } else {
-                AppUtil.ShowErrorMsg(string.Format(ErrorMsg.FailToLaunch, e.Model.FileUrl));
-            }
+            this.LaunchApp(e.Model);
         }
 
         /// <summary>
