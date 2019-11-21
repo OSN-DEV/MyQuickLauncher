@@ -46,7 +46,6 @@ namespace MyQuckLauncher {
         }
         #endregion
 
-
         #region Event
         /// <summary>
         /// 
@@ -60,7 +59,7 @@ namespace MyQuckLauncher {
                 if (this.LaunchApp(this._items.ItemList[index])) {
                     this.SetWindowsState(true);
                 }
-
+                this.Activate();
             } else if (e.Key == Key.Escape) {
                 e.Handled = true;
                 this.SetWindowsState(true);
