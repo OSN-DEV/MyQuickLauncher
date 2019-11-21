@@ -56,7 +56,7 @@ namespace MyQuckLauncher {
             var index = Array.IndexOf(this._keybinding, e.Key);
             if (-1 < index) {
                 e.Handled = true;
-                if (this.LaunchApp(this._items.ItemList[index])) {
+                if (0 < this._items.ItemList[index].FileUrl.Length && this.LaunchApp(this._items.ItemList[index])) {
                     this.SetWindowsState(true);
                 }
                 this.Activate();
