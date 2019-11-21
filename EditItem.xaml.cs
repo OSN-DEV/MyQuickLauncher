@@ -43,6 +43,10 @@ namespace MyQuckLauncher {
         private void Ok_Click(object sender, RoutedEventArgs e) {
             this.Model.DisplayName = this.cDisplayName.Text;
             this.Model.FileUrl = this.cFileUrl.Text;
+
+            if (!System.IO.File.Exists(this.Model.Icon)) {
+                this.Model.Icon = Constant.NoItemIcon;
+            }
             this.DialogResult = true;
         }
 

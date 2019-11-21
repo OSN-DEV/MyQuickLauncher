@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MyQuckLauncher"
         xmlns:u="clr-namespace:MyQuckLauncher.Component"
         mc:Ignorable="d"
-        Title="アイテム編集" Height="250" Width="250" WindowStyle="ThreeDBorderWindow"  WindowStartupLocation="CenterOwner"  ShowInTaskbar="False" ResizeMode="NoResize">
+        Title="アイテム編集" Height="250" Width="250" WindowStyle="ThreeDBorderWindow"  SizeToContent="Height" WindowStartupLocation="CenterOwner"  ShowInTaskbar="False" ResizeMode="NoResize">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -27,7 +27,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <u:CustomImage Width="50" Grid.Row="0" Grid.Column="0"  x:Name="cIcon" HorizontalAlignment="Left">
+        <u:CustomImage Width="32" Height="32" Grid.Row="0" Grid.Column="0"  x:Name="cIcon" >
             <Image.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Edit" Click="MenuItemEdit_Click" />

@@ -47,7 +47,9 @@ namespace MyQuckLauncher.Component {
             if (2 == this.cKey.Text.Length) {
                 this.cKey.Text = this.cKey.Text.Substring(1, 1);
             }
-            this.cIcon.SetImageFromFile(model.Icon);
+            if (System.IO.File.Exists(model.Icon)) {
+                this.cIcon.SetImageFromFile(model.Icon);
+            }
             this.cMenuRemove.IsEnabled = (0 < model.FileUrl?.Length);
             this.Drop += ItemView_Drop;
         }

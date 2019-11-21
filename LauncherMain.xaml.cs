@@ -201,6 +201,7 @@ namespace MyQuckLauncher {
                     item.ItemAdded += ItemAdded;
                     item.ItemUpdated += ItemUpdated;
                     item.ItemRemoved += ItemRemoved;
+                    item.VerticalAlignment = VerticalAlignment.Top;
                     this.cContainer.Children.Add(item);
                    
                 }
@@ -281,6 +282,9 @@ namespace MyQuckLauncher {
         /// </summary>
         /// <param name="model"></param>
         private void RenameTmpIcon(ItemModel model) {
+            if (model.Icon == Constant.NoItemIcon) {
+                return;
+            }
             var file = new FileOperator(model.Icon.Replace(".png.tmp", ".png"));
             file.Delete();
             System.IO.File.Move(model.Icon, file.FilePath);
