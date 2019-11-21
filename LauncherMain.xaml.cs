@@ -115,7 +115,9 @@ namespace MyQuckLauncher {
             if (0 == e.Model.FileUrl.Length) {
                 return;
             }
-            this.LaunchApp(e.Model);
+            if (this.LaunchApp(e.Model)) {
+                this.SetWindowsState(true);
+            }
         }
 
         /// <summary>
