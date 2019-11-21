@@ -12,6 +12,7 @@ namespace MyQuckLauncher.Component {
     /// LauncherItemView.xaml の相互作用ロジック
     /// </summary>
     public partial class ItemView : UserControl {
+
         #region Declaration
         private Window _owner;
         private ItemModel _model;
@@ -47,6 +48,7 @@ namespace MyQuckLauncher.Component {
             if (2 == this.cKey.Text.Length) {
                 this.cKey.Text = this.cKey.Text.Substring(1, 1);
             }
+            this.cDisplayName.Text = model.DisplayName;
             if (System.IO.File.Exists(model.Icon)) {
                 this.cIcon.SetImageFromFile(model.Icon);
             }
@@ -75,6 +77,7 @@ namespace MyQuckLauncher.Component {
             model.FileUrl = fileUtil.FilePath;
             model.DisplayName = fileUtil.Name;
             model.Icon = $"{Constant.IconCache}{this._model.PageNo}_{this._model.Index}.png.tmp";
+            this.cDisplayName.Text = model.DisplayName;
             AppUtil.CreateAppIcon(model.FileUrl, model.Icon);
             this.ItemAdded?.Invoke(this, new ItemEventArgs(model));
         }
@@ -114,7 +117,7 @@ namespace MyQuckLauncher.Component {
             var fileUtil = FileUtil.Create(files[0]);
             model.FileUrl = fileUtil.FilePath;
             model.DisplayName = fileUtil.Name;
-            model.Icon = $"{Constant.IconCache}{this._model.PageNo}_{this._model.Index}.png.tmp";
+            model.Icon = $"{Constant.IconCache}{this._model.PageNo}_{this._model.Index}{Constant.TmpIconExt}";
 
             if (fileUtil.IsDirectory) {
                 AppUtil.CreateDirectoryIcon(model.FileUrl, model.Icon);
@@ -134,7 +137,7 @@ namespace MyQuckLauncher.Component {
         }
         #endregion
 
-        #region Public Method
+        #region Public MethodFunction Design.md
         /// <summary>
         /// update model
         /// </summary>
@@ -142,9 +145,9 @@ namespace MyQuckLauncher.Component {
         public void UpdateModel(ItemModel model) {
             this._model = model;
             this.cIcon.SetImageFromFile(model.Icon);
+            this.cDisplayName.Text = model.DisplayName;
             this.cMenuRemove.IsEnabled = (0 < model.FileUrl?.Length);
         }
-
         #endregion
 
     }

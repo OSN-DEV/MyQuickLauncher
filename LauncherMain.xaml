@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyQuckLauncher"
         mc:Ignorable="d"
-        Title="LauncherMain" Height="350" Width="228" ResizeMode="NoResize" WindowStyle="ThreeDBorderWindow" AllowDrop="True" Closed="LauncherMain_Closed" Loaded="LauncherMain_Loaded">
+        Title="LauncherMain" Height="350" Width="290" ResizeMode="NoResize" WindowStyle="ThreeDBorderWindow" AllowDrop="True" Closed="LauncherMain_Closed" Loaded="LauncherMain_Loaded">
 
     <Grid Name="cContainer" Margin="0 5 0 0 ">
         <Grid.ColumnDefinitions>

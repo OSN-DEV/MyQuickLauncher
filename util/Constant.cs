@@ -28,5 +28,15 @@ namespace MyQuckLauncher.Util {
         /// </summary>
         public static readonly string NoItemIcon =  MyLibUtil.GetAppPath() + @"res\no item.png";
 
+        /// <summary>
+        /// テンポラリアイコンの拡張子
+        /// </summary>
+        public static readonly string TmpIconExt = ".png.tmp";
+
+        /// <summary>
+        /// アイコンの拡張子
+        /// </summary>
+        public static readonly string IconExt = ".png";
+
     }
 }

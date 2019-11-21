@@ -191,6 +191,9 @@ namespace MyQuckLauncher {
                     var model = this._items.ItemList[index];
                     model.PageNo = 1;
                     model.Index = index;
+                    if (!System.IO.File.Exists(model.Icon)) {
+                        model.Icon = Constant.NoItemIcon;
+                    }
                     var item = new ItemView(this, model, this._keybinding[index]);
                     this._itemViews[index] = item;
                     index++;
@@ -285,7 +288,10 @@ namespace MyQuckLauncher {
             if (model.Icon == Constant.NoItemIcon) {
                 return;
             }
-            var file = new FileOperator(model.Icon.Replace(".png.tmp", ".png"));
+            if (!model.Icon.EndsWith(Constant.TmpIconExt)) {
+                return;
+            }
+            var file = new FileOperator(model.Icon.Replace(Constant.TmpIconExt, Constant.IconExt));
             file.Delete();
             System.IO.File.Move(model.Icon, file.FilePath);
             model.Icon = file.FilePath;

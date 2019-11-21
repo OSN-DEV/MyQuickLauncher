@@ -121,7 +121,7 @@ namespace MyQuckLauncher {
                 this.Model.Icon = Constant.NoItemIcon;
             } else {
                 if (fileUtil.Exists()) {
-                    this.Model.Icon = $"{Constant.IconCache}{this.Model.PageNo}_{this.Model.Index}.png.tmp";
+                    this.Model.Icon = $"{Constant.IconCache}{this.Model.PageNo}_{this.Model.Index}{Constant.TmpIconExt}";
                     if (fileUtil.IsDirectory) {
                         AppUtil.CreateDirectoryIcon(this.cFileUrl.Text, this.Model.Icon);
                     } else {
