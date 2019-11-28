@@ -36,6 +36,15 @@ namespace MyQuckLauncher {
 
         #region Event
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Deactivated(object sender, EventArgs e) {
+            this.Close();
+        }
+
+        /// <summary>
         /// CancelButton Click
         /// </summary>
         /// <param name="sender"></param>
