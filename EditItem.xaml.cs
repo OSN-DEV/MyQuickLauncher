@@ -41,7 +41,11 @@ namespace MyQuckLauncher {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Window_Deactivated(object sender, EventArgs e) {
-            this.Close();
+            try{
+                this.Close();
+            } catch {
+                // NOP
+            }
         }
 
         /// <summary>
