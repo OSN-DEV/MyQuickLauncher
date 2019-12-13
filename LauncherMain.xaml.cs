@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using MyLib.File;
+using MyLib.Util;
 using MyQuckLauncher.Component;
 using MyQuckLauncher.Data;
-using MyLib.Util;
 using MyQuckLauncher.Util;
-using MyLib.File;
+using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace MyQuckLauncher {
     /// <summary>
@@ -33,6 +25,7 @@ namespace MyQuckLauncher {
                                       Key.Z,Key.X,Key.C,Key.V};
         private ItemView[] _itemViews;
         private readonly System.Windows.Forms.NotifyIcon _notifyIcon = new System.Windows.Forms.NotifyIcon();
+        private string _appTitle = "";
         #endregion
 
         #region Constructor
@@ -53,10 +46,41 @@ namespace MyQuckLauncher {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void LauncherMain_KeyDown(object sender, KeyEventArgs e) {
+            //change page
+            if (Key.D1 <= e.Key && e.Key <= Key.D4 && this.IsModifierPressed(ModifierKeys.Shift)) {
+                e.Handled = true;
+                int page = (int)Key.D1 - 35;
+                if (this._settings.Page != page) {
+                    this._settings.Page = page;
+                    this._settings.Save();
+                    this.ShowCurrentPage();
+                }
+                return;
+            }
+            if(Key.Left == e.Key || Key.Right == e.Key) {
+                e.Handled = true;
+                if (Key.Left == e.Key) {
+                    this._settings.Page--;
+                    if (this._settings.Page < 0) {
+                        this._settings.Page = Constant.PageCount - 1;
+                    }
+                } else {
+                    this._settings.Page++;
+                    if (Constant.PageCount <= this._settings.Page) {
+                        this._settings.Page = 0;
+                    }
+                }
+                this._settings.Save();
+                this.ShowCurrentPage();
+                return;
+            }
+
+            // launch or minimize
             var index = Array.IndexOf(this._keybinding, e.Key);
             if (-1 < index) {
                 e.Handled = true;
-                if (0 < this._items.ItemList[index].FileUrl.Length && this.LaunchApp(this._items.ItemList[index])) {
+                var model = GetModel(index);
+                if (0 < model.FileUrl.Length && this.LaunchApp(model)) {
                     this.SetWindowsState(true);
                 }
                 this.Activate();
@@ -127,7 +151,7 @@ namespace MyQuckLauncher {
         /// <param name="e"></param>
         private void ItemRemoved(object sender, ItemView.ItemEventArgs e) {
             new FileOperator(e.Model.Icon).Delete();
-            var model = this._items.ItemList[e.Model.Index];
+            var model = this.GetModel(e.Model.Index);
             model.Clear();
             model.Icon = Constant.NoItemIcon;
             this._items.Save();
@@ -150,7 +174,7 @@ namespace MyQuckLauncher {
         /// <param name="e"></param>
         private void ItemAdded(object sender, ItemView.ItemEventArgs e) {
             this.RenameTmpIcon(e.Model);
-            this._items.SetItem(e.Model);
+            this._items.SetItem(this._settings.Page, e.Model);
             this._items.Save();
             this._itemViews[e.Model.Index].UpdateModel(e.Model);
         }
@@ -166,14 +190,9 @@ namespace MyQuckLauncher {
             var dirUtil = new DirectoryOperator(Constant.IconCache);
             dirUtil.Create();
             dirUtil.ParseChildren(false, new List<string>() { "tmp" });
-            foreach(var child in dirUtil.Children) {
-                ((FileOperator)child).Delete(); 
+            foreach (var child in dirUtil.Children) {
+                ((FileOperator)child).Delete();
             }
-
-            // show title
-            var fullname = typeof(App).Assembly.Location;
-            var info = System.Diagnostics.FileVersionInfo.GetVersionInfo(fullname);
-            this.Title = $"MyQuickLauncher({info.FileVersion})";
 
             // set window position
             this._settings = AppRepository.Init(Constant.SettingFile);
@@ -184,15 +203,21 @@ namespace MyQuckLauncher {
                 this.Top = this._settings.Pos.Y;
             }
 
+            // show title
+            var fullname = typeof(App).Assembly.Location;
+            var info = System.Diagnostics.FileVersionInfo.GetVersionInfo(fullname);
+            this._appTitle = $"MyQuickLauncher({info.ProductMajorPart}.{info.ProductMinorPart}.{info.ProductPrivatePart})";
+            this.UpdateTitle();
+
             // setup grid items
-            this._items  = _items = ItemRepository.Init(Constant.AppDataFile);
+            this._items = _items = ItemRepository.Init(Constant.AppDataFile);
             var index = 0;
-            this._itemViews = new ItemView[this._items.ItemList.Length];
+            this._itemViews = new ItemView[Constant.ItemCount];
             for (int row = 0; row < this.cContainer.RowDefinitions.Count; row++) {
                 for (int col = 0; col < this.cContainer.ColumnDefinitions.Count; col++) {
-                    var model = this._items.ItemList[index];
-                    model.PageNo = 1;
-                    model.Index = index;
+                    var model = this._items.ItemList[this._settings.Page][index];
+                    //model.PageNo = 1;
+                    //model.Index = index;
                     if (!System.IO.File.Exists(model.Icon)) {
                         model.Icon = Constant.NoItemIcon;
                     }
@@ -208,21 +233,21 @@ namespace MyQuckLauncher {
                     item.ItemRemoved += ItemRemoved;
                     item.VerticalAlignment = VerticalAlignment.Top;
                     this.cContainer.Children.Add(item);
-                   
+
                 }
             }
 
             // register hot key
             this._hotkey.Register(ModifierKeys.None, Key.F16, (_, __) => {
-                                      if (!this.ShowInTaskbar) {
-                                          NotifyMenuShow_Click(null, null);
-                                      } else {
-                                          if (this.WindowState == WindowState.Minimized) {
-                                              this.WindowState = WindowState.Normal;
-                                          }
-                                          this.Activate();
-                                      }
-                                  }
+                if (!this.ShowInTaskbar) {
+                    NotifyMenuShow_Click(null, null);
+                } else {
+                    if (this.WindowState == WindowState.Minimized) {
+                        this.WindowState = WindowState.Normal;
+                    }
+                    this.Activate();
+                }
+            }
                                   );
         }
 
@@ -261,7 +286,7 @@ namespace MyQuckLauncher {
                 this._settings.Pos.X = this.Left;
                 this._settings.Pos.Y = this.Top;
                 this._settings.Save();
-            } else { 
+            } else {
                 this.Activate();
             }
         }
@@ -297,6 +322,41 @@ namespace MyQuckLauncher {
             file.Delete();
             System.IO.File.Move(model.Icon, file.FilePath);
             model.Icon = file.FilePath;
+        }
+
+        /// <summary>
+        /// 現在のページのアイテムを取得
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        private ItemModel GetModel(int index) {
+            return this._items.ItemList[this._settings.Page][index];
+        }
+
+        /// <summary>
+        /// タイトルを更新する
+        /// </summary>
+        private void UpdateTitle() {
+            this.Title = $"{this._appTitle} - ({this._settings.Page + 1}/{Constant.PageCount})";
+        }
+
+        /// <summary>
+        /// check if modifiered key is pressed
+        /// </summary>
+        /// <param name="key">modifier key</param>
+        /// <returns>true:modifiered key is pressed, false:otherwise</returns>
+        private bool IsModifierPressed(ModifierKeys key) {
+            return (Keyboard.Modifiers & key) != ModifierKeys.None;
+        }
+
+        /// <summary>
+        /// show current page's items
+        /// </summary>
+        private void ShowCurrentPage() {
+            for (int i = 0; i < Constant.ItemCount; i++) {
+                this._itemViews[i].UpdateModel(this.GetModel(i));
+            }
+            this.UpdateTitle();
         }
         #endregion
     }

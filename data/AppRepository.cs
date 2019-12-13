@@ -14,6 +14,7 @@ namespace MyQuckLauncher.Data {
             public double Y { set; get; } = -1;
         }
         public Location Pos { set; get; } = new Location();
+        public int Page { set; get; } = 0;
         private static string _settingFile;
         #endregion
 

@@ -38,5 +38,15 @@ namespace MyQuckLauncher.Util {
         /// </summary>
         public static readonly string IconExt = ".png";
 
+        /// <summary>
+        /// ページ数
+        /// </summary>
+        public static readonly int PageCount = 4;
+
+        /// <summary>
+        /// ページあたりのアイテム数
+        /// </summary>
+        public static readonly int ItemCount = 16;
+
     }
 }
