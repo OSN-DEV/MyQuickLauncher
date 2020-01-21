@@ -37,7 +37,7 @@ namespace MyQuckLauncher {
             this.SetUpNotifyIcon();
             this.KeyDown += LauncherMain_KeyDown;
         }
-        #endregionr
+        #endregion
 
         #region Event
         /// <summary>
