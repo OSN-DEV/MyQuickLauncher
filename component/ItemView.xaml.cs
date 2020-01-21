@@ -30,6 +30,7 @@ namespace MyQuckLauncher.Component {
         public event ItemViewEventHandler ItemAdded;
         public event ItemViewEventHandler ItemUpdated;
         public event ItemViewEventHandler ItemRemoved;
+        public event ItemViewEventHandler ItemDir;
         #endregion
 
         #region Constructor
@@ -103,6 +104,16 @@ namespace MyQuckLauncher.Component {
         private void MenuItemRemove_Click(object sender, RoutedEventArgs e) {
             this.ItemRemoved?.Invoke(this, new ItemEventArgs(this._model));
         }
+
+        /// <summary>
+        /// Context Menu [Remoive] click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowDir_Click(object sender, RoutedEventArgs e) {
+            this.ItemDir?.Invoke(this, new ItemEventArgs(this._model));
+        }
+       
 
         /// <summary>
         /// Item Drop event
