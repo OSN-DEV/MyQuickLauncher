@@ -37,7 +37,7 @@ namespace MyQuckLauncher {
             this.SetUpNotifyIcon();
             this.KeyDown += LauncherMain_KeyDown;
         }
-        #endregion
+        #endregionr
 
         #region Event
         /// <summary>
@@ -49,7 +49,7 @@ namespace MyQuckLauncher {
             //change page
             if (Key.D1 <= e.Key && e.Key <= Key.D4 && this.IsModifierPressed(ModifierKeys.Shift)) {
                 e.Handled = true;
-                int page = (int)Key.D1 - 35;
+                int page = (int)e.Key - 35;
                 if (this._settings.Page != page) {
                     this._settings.Page = page;
                     this._settings.Save();
