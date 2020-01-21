@@ -159,6 +159,26 @@ namespace MyQuckLauncher {
         }
 
         /// <summary>
+        /// item dir
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ItemDir(object sender, ItemView.ItemEventArgs e) {
+            var model = this.GetModel(e.Model.Index);
+            var file = FileUtil.Create(model.FileUrl);
+            if (null == file) {
+                return;
+            }
+            var fileDir = "";
+            if (file.IsDirectory) {
+                fileDir = file.FilePath;
+            } else {
+                fileDir = ((FileOperator)file).GetParendDir().FilePath;
+            }
+            MyLibUtil.RunApplication(fileDir, false);
+        }
+
+        /// <summary>
         /// item updated
         /// </summary>
         /// <param name="sender"></param>
@@ -231,6 +251,7 @@ namespace MyQuckLauncher {
                     item.ItemAdded += ItemAdded;
                     item.ItemUpdated += ItemUpdated;
                     item.ItemRemoved += ItemRemoved;
+                    item.ItemDir += ItemDir;
                     item.VerticalAlignment = VerticalAlignment.Top;
                     this.cContainer.Children.Add(item);
 
