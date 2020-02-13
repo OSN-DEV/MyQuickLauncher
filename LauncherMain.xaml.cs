@@ -276,7 +276,7 @@ namespace MyQuckLauncher {
         /// set up notify icon
         /// </summary>
         private void SetUpNotifyIcon() {
-            this._notifyIcon.Text = "My Simple Launcher";
+            this._notifyIcon.Text = "My Quick Launcher";
             this._notifyIcon.Icon = new System.Drawing.Icon("app.ico");
             var menu = new System.Windows.Forms.ContextMenuStrip();
             var menuItemShow = new System.Windows.Forms.ToolStripMenuItem {
