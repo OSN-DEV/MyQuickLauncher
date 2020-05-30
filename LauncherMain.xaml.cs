@@ -259,7 +259,7 @@ namespace MyQuckLauncher {
             }
 
             // register hot key
-            this._hotkey.Register(ModifierKeys.None, Key.F16, (_, __) => {
+            this._hotkey.Register(ModifierKeys.None, Key.ImeNonConvert, (_, __) => {
                 if (!this.ShowInTaskbar) {
                     NotifyMenuShow_Click(null, null);
                 } else {
