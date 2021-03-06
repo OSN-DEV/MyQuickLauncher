@@ -150,7 +150,9 @@ namespace MyQuckLauncher {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ItemRemoved(object sender, ItemView.ItemEventArgs e) {
-            new FileOperator(e.Model.Icon).Delete();
+            if (Constant.NoItemIcon != e.Model.Icon) {
+                new FileOperator(e.Model.Icon).Delete();
+            }
             var model = this.GetModel(e.Model.Index);
             model.Clear();
             model.Icon = Constant.NoItemIcon;
