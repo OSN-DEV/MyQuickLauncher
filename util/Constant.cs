@@ -46,7 +46,7 @@ namespace MyQuckLauncher.Util {
         /// <summary>
         /// ページあたりのアイテム数
         /// </summary>
-        public static readonly int ItemCount = 16;
+        public static readonly int ItemCount = 40;
 
     }
 }

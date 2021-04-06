@@ -49,6 +49,26 @@ namespace MyQuckLauncher.Component {
             if (2 == this.cKey.Text.Length) {
                 this.cKey.Text = this.cKey.Text.Substring(1, 1);
             }
+            if (2 < this.cKey.Text.Length) {
+                switch (this.cKey.Text) {
+                    case "OemSemicolon":
+                    case "Oem1":
+                        this.cKey.Text = ";";
+                        break;
+                    case "OemComma":
+                        this.cKey.Text = ",";
+                        break;
+                    case "OemPeriod":
+                        this.cKey.Text = ".";
+                        break;
+                    case "OemQuestion":
+                        this.cKey.Text = "?";
+                        break;
+                    case "OemPlus":
+                        this.cKey.Text = "+";
+                        break;
+                }
+            }
             this.cDisplayName.Text = model.DisplayName;
             if (System.IO.File.Exists(model.Icon)) {
                 this.cIcon.SetImageFromFile(model.Icon);

@@ -19,10 +19,10 @@ namespace MyQuckLauncher {
         private readonly HotKeyHelper _hotkey;
         private AppRepository _settings;
         private ItemRepository _items;
-        private Key[] _keybinding = { Key.D1, Key.D2, Key.D3, Key.D4,
-                                      Key.Q,Key.W,Key.E,Key.R,
-                                      Key.A,Key.S,Key.D,Key.F,
-                                      Key.Z,Key.X,Key.C,Key.V};
+        private Key[] _keybinding = { Key.D1, Key.D2, Key.D3, Key.D4,Key.D5,Key.D6,Key.D7,Key.D8,Key.D9,Key.D0,
+                                      Key.Q,Key.W,Key.E,Key.R,Key.T,Key.Y,Key.U, Key.I,Key.O,Key.P,
+                                      Key.A,Key.S,Key.D,Key.F,Key.G, Key.H,Key.J, Key.K,Key.L,Key.OemPlus,
+                                      Key.Z,Key.X,Key.C,Key.V,Key.B,Key.N,Key.M,Key.OemComma,Key.OemPeriod,Key.OemQuestion };
         private ItemView[] _itemViews;
         private readonly System.Windows.Forms.NotifyIcon _notifyIcon = new System.Windows.Forms.NotifyIcon();
         private string _appTitle = "";
