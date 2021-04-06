@@ -26,6 +26,16 @@ namespace MyQuckLauncher.Data {
                     }
                 }
                 _instance.Save();
+            } else if (_instance.ItemList[0].Count < Constant.ItemCount) {
+                int start = _instance.ItemList[0].Count;
+                for (int page = 0; page < Constant.PageCount; page++) {
+                    for (int index = start; index < Constant.ItemCount; index++) {
+                        _instance.ItemList[page].Add(new ItemModel());
+                        _instance.ItemList[page][index].PageNo = page;
+                        _instance.ItemList[page][index].Index = index;
+                        _instance.ItemList[page][index].Icon = Constant.NoItemIcon;
+                    }
+                }
             }
             return _instance;
         }

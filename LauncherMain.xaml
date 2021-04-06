@@ -5,14 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyQuckLauncher"
         mc:Ignorable="d"
-        Title="LauncherMain" Height="350" Width="680" ResizeMode="NoResize" WindowStyle="ThreeDBorderWindow" AllowDrop="True" Closed="LauncherMain_Closed" Loaded="LauncherMain_Loaded">
+        Title="LauncherMain" Height="350" Width="350" ResizeMode="NoResize" WindowStyle="ThreeDBorderWindow" AllowDrop="True" Closed="LauncherMain_Closed" Loaded="LauncherMain_Loaded">
 
     <Grid Name="cContainer" Margin="0 5 0 0 ">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
@@ -25,6 +21,8 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <TextBlock  Name="cPage" Grid.Row="4" Grid.ColumnSpan="6" Text="●○○○" VerticalAlignment="Center" TextAlignment="Center" Margin="0,0,0,5" />
     </Grid>
 </Window>

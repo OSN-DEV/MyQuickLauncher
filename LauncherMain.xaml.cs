@@ -19,10 +19,10 @@ namespace MyQuckLauncher {
         private readonly HotKeyHelper _hotkey;
         private AppRepository _settings;
         private ItemRepository _items;
-        private Key[] _keybinding = { Key.D1, Key.D2, Key.D3, Key.D4,Key.D5,Key.D6,Key.D7,Key.D8,Key.D9,Key.D0,
-                                      Key.Q,Key.W,Key.E,Key.R,Key.T,Key.Y,Key.U, Key.I,Key.O,Key.P,
-                                      Key.A,Key.S,Key.D,Key.F,Key.G, Key.H,Key.J, Key.K,Key.L,Key.OemPlus,
-                                      Key.Z,Key.X,Key.C,Key.V,Key.B,Key.N,Key.M,Key.OemComma,Key.OemPeriod,Key.OemQuestion };
+        private Key[] _keybinding = { Key.D1, Key.D2, Key.D3, Key.D4, Key.D5, Key.D6,
+                                      Key.Q,  Key.W,  Key.E,  Key.R,  Key.T,  Key.Y,
+                                      Key.A,  Key.S,  Key.D,  Key.F,  Key.G,  Key.H,
+                                      Key.Z,  Key.X,  Key.C,  Key.V,  Key.B,  Key.N };
         private ItemView[] _itemViews;
         private readonly System.Windows.Forms.NotifyIcon _notifyIcon = new System.Windows.Forms.NotifyIcon();
         private string _appTitle = "";
@@ -233,7 +233,7 @@ namespace MyQuckLauncher {
             this._items = _items = ItemRepository.Init(Constant.AppDataFile);
             var index = 0;
             this._itemViews = new ItemView[Constant.ItemCount];
-            for (int row = 0; row < this.cContainer.RowDefinitions.Count; row++) {
+            for (int row = 0; row < this.cContainer.RowDefinitions.Count-1; row++) {
                 for (int col = 0; col < this.cContainer.ColumnDefinitions.Count; col++) {
                     var model = this._items.ItemList[this._settings.Page][index];
                     //model.PageNo = 1;
@@ -359,6 +359,21 @@ namespace MyQuckLauncher {
         /// </summary>
         private void UpdateTitle() {
             this.Title = $"{this._appTitle} - ({this._settings.Page + 1}/{Constant.PageCount})";
+            
+            switch(this._settings.Page) {
+                case 0:
+                    this.cPage.Text = "●○○○";
+                    break;
+                case 1:
+                    this.cPage.Text = "○●○○";
+                    break;
+                case 2:
+                    this.cPage.Text = "○○●○";
+                    break;
+                case 3:
+                    this.cPage.Text = "○○○●";
+                    break;
+            }
         }
 
         /// <summary>
