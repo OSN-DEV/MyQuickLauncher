@@ -30,7 +30,7 @@
         <u:CustomImage Width="32" Height="32" Grid.Row="0" Grid.Column="0"  x:Name="cIcon" >
             <Image.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Edit" Click="MenuItemEdit_Click" />
+                    <!--<MenuItem Header="Edit" Click="MenuItemEdit_Click" />-->
                     <MenuItem Header="Remove" Name="cMenuRemove"  Click="MenuItemRemove_Click"/>
                 </ContextMenu>
             </Image.ContextMenu>

@@ -104,6 +104,31 @@ namespace MyQuckLauncher.Component {
         }
 
         /// <summary>
+        /// Context Menu [Add] click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EditIcon_Click(object sender, RoutedEventArgs e) {
+            var dialog = new OpenFileDialog() {
+                Filter = "all|*.png",
+                FilterIndex = 0,
+                Title = "アイコンを選択"
+            };
+            if (true != dialog.ShowDialog()) {
+                return;
+            }
+
+
+            this._model.Icon = $"{Constant.IconCache}{this._model.PageNo}_{this._model.Index}.png";
+            if (System.IO.File.Exists(this._model.Icon)) {
+                System.IO.File.Delete(this._model.Icon);
+            }
+            System.IO.File.Copy(dialog.FileName, this._model.Icon);
+            AppUtil.CreateImgeFromIconFile(this._model.Icon);
+            this.ItemUpdated?.Invoke(this, new ItemEventArgs(this._model));
+        }
+        
+        /// <summary>
         /// Context Menu [Edit] click
         /// </summary>
         /// <param name="sender"></param>

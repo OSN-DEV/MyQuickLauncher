@@ -40,6 +40,7 @@ namespace MyQuckLauncher.Util {
             }
         }
 
+
         /// <summary>
         /// create directory icon
         /// </summary>

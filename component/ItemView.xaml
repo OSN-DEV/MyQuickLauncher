@@ -19,6 +19,7 @@
                 <MenuItem Header="Edit" Click="MenuItemEdit_Click" />
                 <MenuItem Header="Remove" Name="cMenuRemove"  Click="MenuItemRemove_Click"/>
                 <MenuItem Header="ShowDir" Name="cShowDir"  Click="ShowDir_Click"/>
+                <MenuItem Header="Edit Icon" Click="EditIcon_Click" />
             </ContextMenu>
             </u:CustomImage.ContextMenu>
         </u:CustomImage>

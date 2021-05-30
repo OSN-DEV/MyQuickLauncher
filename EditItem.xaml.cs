@@ -73,11 +73,11 @@ namespace MyQuckLauncher {
                 Title = "ファイルを選択"
             };
             
-            if (true != dialog.ShowDialog(this.Owner)) {
+            if (true != dialog.ShowDialog(this)) {
                 return;
             }
 
-            this.Model.Icon = $"{Constant.IconCache}{this.Model.PageNo}_{this.Model.Index}.png.tmp";
+            this.Model.Icon = $"{Constant.IconCache}{this.Model.PageNo}_{this.Model.Index}.tmp.png";
             System.IO.File.Copy(dialog.FileName, this.Model.Icon, true);
             this.cIcon.SetImageFromFile(this.Model.Icon);
 
