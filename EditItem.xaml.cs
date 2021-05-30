@@ -72,7 +72,8 @@ namespace MyQuckLauncher {
                 FilterIndex = 0,
                 Title = "ファイルを選択"
             };
-            if (true != dialog.ShowDialog()) {
+            
+            if (true != dialog.ShowDialog(this.Owner)) {
                 return;
             }
 
